@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+@import '~antd/dist/antd.css';
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f6f6f6;
+  font-family: 'Lato', sans-serif;
+}
+
+/* Utility classes  */
+
+.flex {
+  display: flex;
+  gap: 1rem;
+}
+
+.center {
+  justify-content: center;
+  align-items: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bg-white {
+  background: #fff;
+}
+
+.min-height-100 {
+  min-height: calc(100vh - 5rem);
+}
+
+.container {
+  padding-inline: 1rem;
+  margin-inline: auto;
+  max-width: 80rem;
+}
+
+/* form pages  */
+.form {
+  width: 50%;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 15px -8px rgba(0, 0, 0, 0.2);
+}
+
+.grid {
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  margin-block: 1rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .form {
+    width: 90%;
+  }
+}
