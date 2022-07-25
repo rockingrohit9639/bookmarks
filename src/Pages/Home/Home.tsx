@@ -1,5 +1,5 @@
-import React from 'react';
-import Bookmark from '../../Components/Bookmark/Bookmark';
+import React from "react";
+import Bookmark from "../../Components/Bookmark/Bookmark";
 
 const Home: React.FC = () => {
   return (
