@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login, server } from "../../axios/instance";
 import { useAuthContext } from "../../hooks/useAuthentication";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { UserLoginValues } from "../../interfaces/User";
+import { UserLoginValues } from "../../types/User";
 
 const Login: React.FC = () => {
   const { isAuthenticated, setUserContent, setAuthenticated } =

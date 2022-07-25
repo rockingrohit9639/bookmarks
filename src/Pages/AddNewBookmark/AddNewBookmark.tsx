@@ -3,7 +3,7 @@ import { Button, Form, Input, message, Spin, Typography } from "antd";
 import { AxiosError } from "axios";
 import React from "react";
 import { addBookmark } from "../../axios/instance";
-import { Bookmark } from "../../interfaces/Bookmarks";
+import { BookmarkType } from "../../types/Bookmarks";
 
 const AddNewBookmark: React.FC = () => {
   const [form] = Form.useForm();
@@ -12,7 +12,7 @@ const AddNewBookmark: React.FC = () => {
   const { isLoading, mutate } = useMutation(addBookmark, {
     onSuccess: () => {
       message.success("Bookmark added successfully");
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(["bookmarks"]);
       form.resetFields();
     },
     onError: (error: AxiosError<any>) => {
@@ -21,10 +21,12 @@ const AddNewBookmark: React.FC = () => {
       } else {
         message.error("Something went wrong");
       }
+      console.log(error);
     },
   });
 
-  const handleSubmit = (values: Bookmark) => {
+  const handleSubmit = (values: BookmarkType) => {
+    console.log(values);
     mutate(values);
   };
 

@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { server, signup } from "../../axios/instance";
 import { useAuthContext } from "../../hooks/useAuthentication";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { UserDataType } from "../../interfaces/User";
+import { UserDataType } from "../../types/User";
 
 const Singup: React.FC = () => {
   const [signupForm] = Form.useForm();

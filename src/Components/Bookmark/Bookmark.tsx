@@ -1,9 +1,14 @@
-import { Button, Card, Form, Input, Modal, Typography } from 'antd';
-import React, { useState } from 'react';
-import './Bookmark.css';
-import { LinkOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Button, Card, Form, Input, Modal, Typography } from "antd";
+import React, { useState } from "react";
+import "./Bookmark.css";
+import { LinkOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { BookmarkType } from "../../types/Bookmarks";
 
-const Bookmark: React.FC = () => {
+type BookmarkProps = {
+  bookmark: BookmarkType;
+};
+
+const Bookmark: React.FC<BookmarkProps> = ({ bookmark }: BookmarkProps) => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const handleClose = () => setVisible(false);
@@ -11,10 +16,10 @@ const Bookmark: React.FC = () => {
   return (
     <>
       <Card
-        title={<Typography.Title level={3}>Google</Typography.Title>}
+        title={<Typography.Title level={3}>{bookmark.title}</Typography.Title>}
         extra={
           <div className="flex align-items-center">
-            <a href="http://google.com" target="_blank" rel="noreferrer">
+            <a href={bookmark.link} target="_blank" rel="noreferrer">
               <LinkOutlined />
             </a>
           </div>
@@ -26,14 +31,10 @@ const Bookmark: React.FC = () => {
           <Button type="link" danger>
             <DeleteOutlined />
           </Button>,
-        ]}
+        ]}  
         style={{ width: 300 }}
       >
-        <Typography.Text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt ducimus
-          doloremque accusamus culpa deserunt? Vero, nam! Ipsum fugit aperiam
-          porro?
-        </Typography.Text>
+        <Typography.Text>{bookmark.description}</Typography.Text>
       </Card>
       <Modal
         title="Basic Modal"
@@ -45,7 +46,7 @@ const Bookmark: React.FC = () => {
           <Form.Item
             label="Title"
             name="title"
-            rules={[{ required: true, message: 'Please input title!' }]}
+            rules={[{ required: true, message: "Please input title!" }]}
           >
             <Input />
           </Form.Item>
@@ -53,7 +54,7 @@ const Bookmark: React.FC = () => {
           <Form.Item
             label="Description"
             name="description"
-            rules={[{ required: true, message: 'Please input description!' }]}
+            rules={[{ required: true, message: "Please input description!" }]}
           >
             <Input.TextArea />
           </Form.Item>
@@ -61,7 +62,7 @@ const Bookmark: React.FC = () => {
           <Form.Item
             label="Link"
             name="link"
-            rules={[{ required: true, message: 'Please input link!' }]}
+            rules={[{ required: true, message: "Please input link!" }]}
           >
             <Input type="url" />
           </Form.Item>
