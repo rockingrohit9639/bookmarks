@@ -23,3 +23,9 @@ export const addBookmark = (data: BookmarkType): Promise<AxiosResponse> =>
 
 export const getBookmarks = (): Promise<AxiosResponse> =>
   server.get("/bookmarks");
+
+export const updateBookmark = (data: {
+  bookmarkId: number;
+  data: BookmarkType;
+}): Promise<AxiosResponse> =>
+  server.put(`/bookmarks/update/${data.bookmarkId}`, data.data);
