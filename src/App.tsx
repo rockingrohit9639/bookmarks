@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Pages/Login/Login";
 import Navbar from "./Components/Navbar/Navbar";
@@ -6,26 +6,51 @@ import Singup from "./Pages/Signup/Singup";
 import Home from "./Pages/Home/Home";
 import AddNewBookmark from "./Pages/AddNewBookmark/AddNewBookmark";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "./hooks/useAuthentication";
+import { useAuthContext } from "./hooks/useAuthentication";
+import { server } from "./axios/instance";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 const queryClient = new QueryClient();
 
 function App() {
+  const { setAuthenticated, setUserContent } = useAuthContext();
+
+  const [token] = useLocalStorage("token", "");
+  const getUserContent = useCallback(async () => {
+    const res = await server.get("/users/profile");
+    const userData = {
+      firstName: res.data.firstName,
+      lastName: res.data.lastName,
+      email: res.data.email,
+    };
+    setUserContent(userData);
+  }, [setUserContent]);
+
+  useEffect(() => {
+    if (token) {
+      setAuthenticated(true);
+      server.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      getUserContent();
+    } else {
+      setAuthenticated(false);
+      window.location.href = "/login";
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
   return (
     <div className="App">
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Singup />} />
-              <Route path="/add-new-bookmark" element={<AddNewBookmark />} />
-            </Routes>
-          </BrowserRouter>
-        </QueryClientProvider>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Singup />} />
+            <Route path="/add-new-bookmark" element={<AddNewBookmark />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </div>
   );
 }
