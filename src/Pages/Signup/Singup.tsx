@@ -1,16 +1,39 @@
-import { Button, Form, Input, Typography } from "antd";
+import { useMutation } from "@tanstack/react-query";
+import { Button, Form, Input, Typography, message } from "antd";
+import { AxiosError } from "axios";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { server, signup } from "../../axios/instance";
 import { UserDataType } from "../../interfaces/User";
 
 const Singup: React.FC = () => {
+  const [signupForm] = Form.useForm();
+  const navigate = useNavigate();
+
+  const mutation = useMutation(signup, {
+    onSuccess: ({ data }) => {
+      message.success("Signup Success!");
+      server.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+      signupForm.resetFields();
+      navigate("/");
+    },
+    onError: (error: AxiosError<any>) => {
+      if (error.response) {
+        message.error(error.response.data.message);
+      } else {
+        console.log(error);
+      }
+    },
+  });
+
   const handleFormFinish = (values: UserDataType) => {
-    console.log(values);
+    mutation.mutate(values);
   };
 
   return (
     <div className="container min-height-100 flex align-items-center justify-content-center">
       <Form
+        form={signupForm}
         name="signup"
         onFinish={handleFormFinish}
         autoComplete="off"
