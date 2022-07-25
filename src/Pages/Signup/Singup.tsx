@@ -39,6 +39,7 @@ const Singup: React.FC = () => {
   };
 
   console.log(isAuthenticated);
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");

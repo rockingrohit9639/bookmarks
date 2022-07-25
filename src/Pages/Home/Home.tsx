@@ -1,14 +1,17 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { server } from "../../axios/instance";
 import Bookmark from "../../Components/Bookmark/Bookmark";
 import { useAuthContext } from "../../hooks/useAuthentication";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const Home: React.FC = () => {
-  
+  const { isAuthenticated } = useAuthContext();
+  const navigate = useNavigate();
 
-  
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <div className="home container">
