@@ -5,15 +5,19 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { server, signup } from "../../axios/instance";
 import { useAuthContext } from "../../hooks/useAuthentication";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { UserDataType } from "../../interfaces/User";
 
 const Singup: React.FC = () => {
   const [signupForm] = Form.useForm();
   const navigate = useNavigate();
   const { setAuthenticated, setUserContent } = useAuthContext();
+  const [token, setToken] = useLocalStorage("token", "");
+  console.log(token);
 
   const mutation = useMutation(signup, {
     onSuccess: ({ data }, values) => {
+      setToken(data.access_token);
       setUserContent(values);
       setAuthenticated(true);
       message.success("Signup Success!");
