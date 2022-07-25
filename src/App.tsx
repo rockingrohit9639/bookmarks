@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "./Pages/Login/Login";
 import Navbar from "./Components/Navbar/Navbar";
 import Singup from "./Pages/Signup/Singup";

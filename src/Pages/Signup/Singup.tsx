@@ -38,8 +38,6 @@ const Singup: React.FC = () => {
     mutate(values);
   };
 
-  console.log(isAuthenticated);
-
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");

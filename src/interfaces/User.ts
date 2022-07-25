@@ -5,7 +5,7 @@ export interface UserDataType {
   password: string;
 }
 
-export interface LoginDataType {
+export interface UserLoginValues {
   email: string;
   password: string;
 }
