@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { Bookmark } from "../interfaces/Bookmarks";
 import { UserLoginValues, UserDataType } from "../interfaces/User";
 
 const DEV_URL: string = "http://localhost:3333";
@@ -16,3 +17,6 @@ export const signup = (data: UserDataType): Promise<AxiosResponse> =>
 
 export const login = (data: UserLoginValues): Promise<AxiosResponse> =>
   server.post("/auth/signin", data);
+
+export const addBookmark = (data: Bookmark): Promise<AxiosResponse> =>
+  server.post("/bookmarks/create");
