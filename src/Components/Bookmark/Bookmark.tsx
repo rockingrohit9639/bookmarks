@@ -13,7 +13,7 @@ import "./Bookmark.css";
 import { LinkOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { BookmarkType } from "../../types/Bookmarks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateBookmark } from "../../axios/instance";
+import { deleteBookmark, updateBookmark } from "../../axios/instance";
 import { AxiosError } from "axios";
 
 type BookmarkProps = {
@@ -44,6 +44,21 @@ const Bookmark: React.FC<BookmarkProps> = ({ bookmark }: BookmarkProps) => {
     mutate({ bookmarkId: bookmark.id, data: values });
   };
 
+  const deleteMutation = useMutation(deleteBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["bookmarks"]);
+      message.success("Bookmark deleted successfully");
+    },
+    onError: (error: AxiosError<any>) => {
+      if (error.response) {
+        message.error(error.response.data.message);
+      } else {
+        message.error("Something went wrong");
+      }
+      console.log(error);
+    },
+  });
+
   useEffect(() => {
     form.setFieldsValue({
       title: bookmark.title,
@@ -53,6 +68,15 @@ const Bookmark: React.FC<BookmarkProps> = ({ bookmark }: BookmarkProps) => {
   }, [bookmark, form]);
 
   const handleClose = () => setVisible(false);
+
+  const handleDelete = () => {
+    const isDelete = window.confirm(
+      "Are you sure you want to delete this bookmark?"
+    );
+    if (isDelete) {
+      deleteMutation.mutate(bookmark.id);
+    }
+  };
 
   return (
     <>
@@ -69,7 +93,7 @@ const Bookmark: React.FC<BookmarkProps> = ({ bookmark }: BookmarkProps) => {
           <Button type="link" onClick={() => setVisible(true)}>
             <EditOutlined />
           </Button>,
-          <Button type="link" danger>
+          <Button type="link" danger onClick={handleDelete}>
             <DeleteOutlined />
           </Button>,
         ]}

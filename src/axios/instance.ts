@@ -29,3 +29,6 @@ export const updateBookmark = (data: {
   data: BookmarkType;
 }): Promise<AxiosResponse> =>
   server.put(`/bookmarks/update/${data.bookmarkId}`, data.data);
+
+export const deleteBookmark = (bookmarkId: number): Promise<AxiosResponse> =>
+  server.delete(`/bookmarks/delete/${bookmarkId}`);
