@@ -5,7 +5,7 @@ import { Button, Typography } from "antd";
 import { useAuthContext } from "../../hooks/useAuthentication";
 
 const Navbar: React.FC = () => {
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated, user } = useAuthContext();
 
   return (
     <div className="navbar">
@@ -18,6 +18,13 @@ const Navbar: React.FC = () => {
         <div className="navbar__right flex align-items-center">
           {isAuthenticated ? (
             <>
+              <div>
+                <Typography.Text>Welcome</Typography.Text>
+                <Typography.Title level={5} style={{ margin: 0 }}>
+                  {user?.firstName ?? "Guest123"}
+                </Typography.Title>
+              </div>
+
               <Link to={"/logout"}>Logout</Link>
               <Link to={"/add-new-bookmark"}>
                 <Button type="primary" shape="round">

@@ -10,6 +10,7 @@ import { useAuthContext } from "./hooks/useAuthentication";
 import { server } from "./axios/instance";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import Logout from "./Pages/Logout/Logout";
+import { UserDataType } from "./types/User";
 
 const queryClient = new QueryClient();
 
@@ -23,7 +24,7 @@ function App() {
       firstName: res.data.firstName,
       lastName: res.data.lastName,
       email: res.data.email,
-    };
+    } as UserDataType;
     setUserContent(userData);
   }, [setUserContent]);
 

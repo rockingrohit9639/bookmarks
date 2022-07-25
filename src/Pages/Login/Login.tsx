@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login, server } from "../../axios/instance";
 import { useAuthContext } from "../../hooks/useAuthentication";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { UserLoginValues } from "../../types/User";
+import { UserDataType, UserLoginValues } from "../../types/User";
 
 const Login: React.FC = () => {
   const { isAuthenticated, setUserContent, setAuthenticated } =
@@ -16,7 +16,7 @@ const Login: React.FC = () => {
   const [, setToken] = useLocalStorage("token", "");
 
   const { isLoading, mutate } = useMutation(login, {
-    onSuccess: ({ data }, values) => {
+    onSuccess: ({ data }, values: UserDataType) => {
       server.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
       setUserContent(values);
       setToken(data.access_token);
@@ -34,7 +34,7 @@ const Login: React.FC = () => {
     },
   });
 
-  const handleLoginFinish = (values: UserLoginValues) => {
+  const handleLoginFinish = (values: UserDataType) => {
     mutate(values);
   };
 
