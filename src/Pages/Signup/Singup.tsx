@@ -4,14 +4,18 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { server, signup } from "../../axios/instance";
+import { useAuthContext } from "../../hooks/useAuthentication";
 import { UserDataType } from "../../interfaces/User";
 
 const Singup: React.FC = () => {
   const [signupForm] = Form.useForm();
   const navigate = useNavigate();
+  const { setAuthenticated, setUserContent } = useAuthContext();
 
   const mutation = useMutation(signup, {
-    onSuccess: ({ data }) => {
+    onSuccess: ({ data }, values) => {
+      setUserContent(values);
+      setAuthenticated(true);
       message.success("Signup Success!");
       server.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
       signupForm.resetFields();
